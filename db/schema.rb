@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160418012140) do
+ActiveRecord::Schema.define(version: 20160418032249) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,5 +28,11 @@ ActiveRecord::Schema.define(version: 20160418012140) do
 
   add_index "events", ["course_name"], name: "index_events_on_course_name", using: :btree
   add_index "events", ["track_name"], name: "index_events_on_track_name", using: :btree
+
+  create_table "schedules", force: :cascade do |t|
+    t.date     "event_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
 end
