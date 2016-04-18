@@ -12,6 +12,7 @@ class ScheduleController < ApplicationController
   end
 
   def show
-    @current_events = Event.where("start_time >= ? AND start_time <= ?", "08 Dec 2015".to_datetime, "08 Dec 2015".to_datetime + 1.days) #params[:event_date])
+    @schedule = Schedule.find(params[:id])
+    @current_events = Event.where("start_time >= ? AND start_time <= ?", @schedule.event_date.to_datetime, @schedule.event_date.to_datetime + 1.days)
   end
 end

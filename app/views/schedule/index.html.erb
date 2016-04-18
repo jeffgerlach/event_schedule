@@ -1,5 +1,5 @@
 <h2 class="text-center"> Schedule Index Page </h2>
 <br/>
 <% @schedules.each do |schedule| %>
-    <h3 class="text-center"><%= schedule.event_date.strftime("%d %b %Y") %></h3>
+    <h3 class="text-center"><%=link_to schedule.event_date.strftime("%d %b %Y"), schedule_path(schedule) %></h3>
 <% end %>
