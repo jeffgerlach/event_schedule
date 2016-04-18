@@ -12,7 +12,42 @@ class ScheduleController < ApplicationController
   end
 
   def show
+    @tracks = []
+    Event.all.where("shared_with_all = ?", false).order("track_name ASC").each do |event|
+      @tracks.push(event.track_name) unless @tracks.include?(event.track_name)
+    end
     @schedule = Schedule.find(params[:id])
     @current_events = Event.where("start_time >= ? AND start_time <= ?", @schedule.event_date.to_datetime, @schedule.event_date.to_datetime + 1.days)
+
+
   end
+
+  private
+
+  helper_method :generate_schedule_td
+
+  def generate_schedule_td(time, track_name)
+    find_event = schedule_time_query(time, track_name)
+    time_slot = "<td"
+    #binding.pry
+    if find_event.nil?
+      time_slot += "> </td>"
+    elsif find_event.start_time.hour == time.to_time.hour # start of slot, display name
+      time_slot += " bgcolor=\"#5AACE4\"> #{find_event.course_name} </td>"
+    else
+      time_slot += ' bgcolor="#5AACE4"> </td>'
+    end
+  end
+
+  def schedule_time_query(time, track_name)
+    active_event = @current_events.select{|event| (event.start_time.strftime("%H%M")>= time.to_time.strftime("%H%M")) && (event.end_time.strftime("%H%M") <= (time.to_time + 1.hours).strftime("%H%M")) && (event.track_name == track_name)}
+    #binding.pry
+    #if active_event.nil?
+    #  return nil
+    #else
+    #  active_event.start_time.hour == time.to_time.hour
+    #end
+    active_event.first #should only have one
+  end
+
 end
