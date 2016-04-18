@@ -17,6 +17,7 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  username: postgres
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
@@ -24,6 +25,8 @@ default: &default
 development:
   <<: *default
   database: event_schedule_development
+  password: password
+  host: localhost
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -58,6 +61,8 @@ development:
 test:
   <<: *default
   database: event_schedule_test
+  password: password
+  host: localhost
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -81,5 +86,4 @@ test:
 production:
   <<: *default
   database: event_schedule_production
-  username: event_schedule
   password: <%= ENV['EVENT_SCHEDULE_DATABASE_PASSWORD'] %>
