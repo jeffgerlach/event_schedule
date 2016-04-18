@@ -27,20 +27,31 @@ class ScheduleController < ApplicationController
   helper_method :generate_schedule_td
 
   def generate_schedule_td(time, track_name)
-    find_event = schedule_time_query(time, track_name)
     time_slot = "<td"
-    #binding.pry
-    if find_event.nil?
-      time_slot += "> </td>"
-    elsif find_event.start_time.hour == time.to_time.hour # start of slot, display name
-      time_slot += " bgcolor=\"#5AACE4\"> #{find_event.course_name} </td>"
+
+    common_event = find_shared_event(time)
+    if common_event.nil?
+      find_event = schedule_time_query(time, track_name)
+      #binding.pry
+      if find_event.nil?
+        time_slot += "> </td>"
+      else find_event.start_time.hour == time.to_time.hour # start of slot, display name
+        time_slot += " bgcolor=\"#5AACE4\"> #{find_event.course_name} </td>"
+      #else
+        #time_slot += ' bgcolor="#5AACE4"> </td>'
+      end
     else
-      time_slot += ' bgcolor="#5AACE4"> </td>'
+      time_slot += " bgcolor=\"#C7C3C3\"> #{common_event.course_name} </td>"
     end
   end
 
+  def find_shared_event(time)
+    active_shared_event = @current_events.select{|event| (event.start_time.strftime("%H%M") >= time.to_time.strftime("%H%M")) && (event.end_time.strftime("%H%M") <= (time.to_time + 30.minutes).strftime("%H%M")) && event.shared_with_all}
+    active_shared_event.first
+  end
+
   def schedule_time_query(time, track_name)
-    active_event = @current_events.select{|event| (event.start_time.strftime("%H%M")>= time.to_time.strftime("%H%M")) && (event.end_time.strftime("%H%M") <= (time.to_time + 1.hours).strftime("%H%M")) && (event.track_name == track_name)}
+    active_event = @current_events.select{|event| (event.start_time.strftime("%H%M") >= time.to_time.strftime("%H%M")) && (event.end_time.strftime("%H%M") <= (time.to_time + 30.minutes).strftime("%H%M")) && (event.track_name == track_name)}
     #binding.pry
     #if active_event.nil?
     #  return nil
