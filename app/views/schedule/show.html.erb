@@ -1,3 +1,9 @@
+<% @current_events.each do |event| %>
+    <h3 class="text-center"><%= event.course_name %></h3>
+    <h4 class="text-center"><%= event.track_name %></h4>
+    <h4 class="text-center"><%= event.start_time %></h4>
+    <h4 class="text-center"><%= event.end_time %></h4>
+<% end %>
 
 <div class="col-xs-12">
   <table class ="table-bordered" style="width:100%">
@@ -8,7 +14,7 @@
         <% end %>
       </tr>
       <tr>
-        <td> 7:00 AM </td>
+        <td> 7:00 AM-7:30 AM </td>
         <%= generate_schedule_td("7:00 AM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("7:00 AM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("7:00 AM", "Track 3 - Document Analysis").html_safe %>
@@ -16,7 +22,7 @@
         <%= generate_schedule_td("7:00 AM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 7:30 AM </td>
+        <td> 7:30 AM-8:00 AM </td>
         <%= generate_schedule_td("7:30 AM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("7:30 AM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("7:30 AM", "Track 3 - Document Analysis").html_safe %>
@@ -24,7 +30,7 @@
         <%= generate_schedule_td("7:30 AM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 8:00 AM </td>
+        <td> 8:00 AM-8:30 AM </td>
         <%= generate_schedule_td("8:00 AM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("8:00 AM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("8:00 AM", "Track 3 - Document Analysis").html_safe %>
@@ -32,7 +38,7 @@
         <%= generate_schedule_td("8:00 AM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 8:30 AM </td>
+        <td> 8:30 AM-9:00 AM </td>
         <%= generate_schedule_td("8:30 AM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("8:30 AM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("8:30 AM", "Track 3 - Document Analysis").html_safe %>
@@ -40,7 +46,7 @@
         <%= generate_schedule_td("8:30 AM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 9:00 AM </td>
+        <td> 9:00 AM-9:30 AM </td>
         <%= generate_schedule_td("9:00 AM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("9:00 AM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("9:00 AM", "Track 3 - Document Analysis").html_safe %>
@@ -48,7 +54,7 @@
         <%= generate_schedule_td("9:00 AM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 9:30 AM </td>
+        <td> 9:30 AM-10:00 AM </td>
         <%= generate_schedule_td("9:30 AM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("9:30 AM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("9:30 AM", "Track 3 - Document Analysis").html_safe %>
@@ -56,7 +62,7 @@
         <%= generate_schedule_td("9:30 AM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td>10:00 AM </td>
+        <td>10:00 AM-10:30 AM </td>
         <%= generate_schedule_td("10:00 AM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("10:00 AM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("10:00 AM", "Track 3 - Document Analysis").html_safe %>
@@ -64,7 +70,7 @@
         <%= generate_schedule_td("10:00 AM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td>10:30 AM </td>
+        <td>10:30 AM-11:00 AM </td>
         <%= generate_schedule_td("10:30 AM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("10:30 AM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("10:30 AM", "Track 3 - Document Analysis").html_safe %>
@@ -72,7 +78,7 @@
         <%= generate_schedule_td("10:30 AM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td>11:00 AM </td>
+        <td>11:00 AM-11:30 AM </td>
         <%= generate_schedule_td("11:00 AM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("11:00 AM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("11:00 AM", "Track 3 - Document Analysis").html_safe %>
@@ -80,7 +86,7 @@
         <%= generate_schedule_td("11:00 AM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td>11:30 AM </td>
+        <td>11:30 AM-12:00 AM </td>
         <%= generate_schedule_td("11:30 AM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("11:30 AM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("11:30 AM", "Track 3 - Document Analysis").html_safe %>
@@ -88,7 +94,7 @@
         <%= generate_schedule_td("11:30 AM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td>12:00 PM </td>
+        <td>12:00 PM-12:30 AM </td>
         <%= generate_schedule_td("12:00 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("12:00 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("12:00 PM", "Track 3 - Document Analysis").html_safe %>
@@ -96,7 +102,7 @@
         <%= generate_schedule_td("12:00 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td>12:30 PM </td>
+        <td>12:30 PM-1:00 PM </td>
         <%= generate_schedule_td("12:30 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("12:30 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("12:30 PM", "Track 3 - Document Analysis").html_safe %>
@@ -104,7 +110,7 @@
         <%= generate_schedule_td("12:30 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 1:00 PM </td>
+        <td> 1:00 PM-1:30 PM </td>
         <%= generate_schedule_td("1:00 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("1:00 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("1:00 PM", "Track 3 - Document Analysis").html_safe %>
@@ -112,7 +118,7 @@
         <%= generate_schedule_td("1:00 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 1:30 PM </td>
+        <td> 1:30 PM-2:00 PM </td>
         <%= generate_schedule_td("1:30 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("1:30 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("1:30 PM", "Track 3 - Document Analysis").html_safe %>
@@ -120,7 +126,7 @@
         <%= generate_schedule_td("1:30 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 2:00 PM </td>
+        <td> 2:00 PM-2:30 PM </td>
         <%= generate_schedule_td("2:00 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("2:00 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("2:00 PM", "Track 3 - Document Analysis").html_safe %>
@@ -128,7 +134,7 @@
         <%= generate_schedule_td("2:00 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 2:30 PM </td>
+        <td> 2:30 PM-3:00 PM</td>
         <%= generate_schedule_td("2:30 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("2:30 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("2:30 PM", "Track 3 - Document Analysis").html_safe %>
@@ -136,7 +142,7 @@
         <%= generate_schedule_td("2:30 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 3:00 PM </td>
+        <td> 3:00 PM-3:30 PM </td>
         <%= generate_schedule_td("3:00 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("3:00 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("3:00 PM", "Track 3 - Document Analysis").html_safe %>
@@ -144,7 +150,7 @@
         <%= generate_schedule_td("3:00 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 3:30 PM </td>
+        <td> 3:30 PM-4:00 PM </td>
         <%= generate_schedule_td("3:30 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("3:30 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("3:30 PM", "Track 3 - Document Analysis").html_safe %>
@@ -152,7 +158,7 @@
         <%= generate_schedule_td("3:30 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 4:00 PM </td>
+        <td> 4:00 PM-4:30 PM </td>
         <%= generate_schedule_td("4:00 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("4:00 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("4:00 PM", "Track 3 - Document Analysis").html_safe %>
@@ -160,7 +166,7 @@
         <%= generate_schedule_td("4:00 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 4:30 PM </td>
+        <td> 4:30 PM-5:00 PM </td>
         <%= generate_schedule_td("4:30 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("4:30 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("4:30 PM", "Track 3 - Document Analysis").html_safe %>
@@ -168,7 +174,7 @@
         <%= generate_schedule_td("4:30 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 5:00 PM </td>
+        <td> 5:00 PM-5:30 PM </td>
         <%= generate_schedule_td("5:00 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("5:00 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("5:00 PM", "Track 3 - Document Analysis").html_safe %>
@@ -176,7 +182,7 @@
         <%= generate_schedule_td("5:00 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 5:30 PM </td>
+        <td> 5:30 PM-6:00 PM </td>
         <%= generate_schedule_td("5:30 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("5:30 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("5:30 PM", "Track 3 - Document Analysis").html_safe %>
@@ -184,7 +190,7 @@
         <%= generate_schedule_td("5:30 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 6:00 PM </td>
+        <td> 6:00 PM-6:30 PM </td>
         <%= generate_schedule_td("6:00 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("6:00 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("6:00 PM", "Track 3 - Document Analysis").html_safe %>
@@ -192,7 +198,7 @@
         <%= generate_schedule_td("6:00 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 6:00 PM </td>
+        <td> 6:30 PM-7:00 PM </td>
         <%= generate_schedule_td("6:30 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("6:30 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("6:30 PM", "Track 3 - Document Analysis").html_safe %>
@@ -200,7 +206,7 @@
         <%= generate_schedule_td("6:30 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 7:00 PM </td>
+        <td> 7:00 PM-7:30 PM </td>
         <%= generate_schedule_td("7:00 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("7:00 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("7:00 PM", "Track 3 - Document Analysis").html_safe %>
@@ -208,7 +214,7 @@
         <%= generate_schedule_td("7:00 PM", "Track 5 - Bioinformatics").html_safe %>
       </tr>
       <tr>
-        <td> 7:00 PM </td>
+        <td> 7:30 PM-8:00 PM </td>
         <%= generate_schedule_td("7:30 PM", "Track 1 - Pattern Recognition").html_safe %>
         <%= generate_schedule_td("7:30 PM", "Track 2 - Image, Speech, and Signal Processing").html_safe %>
         <%= generate_schedule_td("7:30 PM", "Track 3 - Document Analysis").html_safe %>

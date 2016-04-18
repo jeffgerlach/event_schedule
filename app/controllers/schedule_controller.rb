@@ -47,12 +47,16 @@ class ScheduleController < ApplicationController
 
   def find_shared_event(time)
     shared_events = @current_events.select{|event| event.shared_with_all}
-    active_shared_event = shared_events.select{|event| (event.start_time.strftime("%H%M") >= time.to_time.strftime("%H%M")) && (event.end_time.strftime("%H%M") <= (time.to_time + 30.minutes).strftime("%H%M"))}
+    time_plus_date = @schedule.event_date.to_s + " " + time
+    time_plus_date = time_plus_date.to_datetime
+    active_shared_event = shared_events.select{|event| time_plus_date.between?(event.start_time, event.end_time)}
     active_shared_event.first
   end
 
   def schedule_time_query(time, track_name)
-    active_event = @current_events.select{|event| (event.start_time.strftime("%H%M") >= time.to_time.strftime("%H%M")) && (event.end_time.strftime("%H%M") <= (time.to_time + 30.minutes).strftime("%H%M")) && (event.track_name == track_name)}
+    time_plus_date = @schedule.event_date.to_s + " " + time
+    time_plus_date = time_plus_date.to_datetime
+    active_event = @current_events.select{|event| time_plus_date.between?(event.start_time, event.end_time) && (event.track_name == track_name)}
     #binding.pry
     #if active_event.nil?
     #  return nil
