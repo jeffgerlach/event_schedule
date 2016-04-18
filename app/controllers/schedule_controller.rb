@@ -8,6 +8,7 @@ class ScheduleController < ApplicationController
     Event.all.where("shared_with_all = ?", false).order("track_name ASC").each do |event|
       @tracks.push(event.track_name) unless @tracks.include?(event.track_name)
     end
+    @tracks.sort!{|x,y| Track.where("track_name = ?", x).first.display_order <=> Track.where("track_name = ?", y).first.display_order}
     @schedule = Schedule.find(params[:id])
     @current_events = Event.where("start_time >= ? AND start_time <= ?", @schedule.event_date.to_datetime, @schedule.event_date.to_datetime + 1.days).order("start_time ASC")
     @earliest_event_time = @current_events.first

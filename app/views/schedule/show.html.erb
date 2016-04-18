@@ -7,7 +7,7 @@
     <tr>
       <td><b></b></td>
       <% @tracks.each do |track| %>
-        <td class="tracknames"><h4><%= (track.gsub(" - ", "<br/>---------<br/><b>")+"</b>").html_safe %></h4></td>
+        <td class="tracknames"><h4><%= (track.gsub(" - ", "<br/><b>")+"</b>").html_safe %></h4></td>
       <% end %>
     </tr>
     <% @time_periods.each do |time_block| %>
