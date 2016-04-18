@@ -35,7 +35,7 @@ class ScheduleController < ApplicationController
       #binding.pry
       if find_event.nil?
         time_slot += "> </td>"
-      else find_event.start_time.hour == time.to_time.hour # start of slot, display name
+      else #find_event.start_time.hour == time.to_time.hour # start of slot, display name
         time_slot += " bgcolor=\"#5AACE4\"> #{find_event.course_name} </td>"
       #else
         #time_slot += ' bgcolor="#5AACE4"> </td>'
@@ -46,7 +46,8 @@ class ScheduleController < ApplicationController
   end
 
   def find_shared_event(time)
-    active_shared_event = @current_events.select{|event| (event.start_time.strftime("%H%M") >= time.to_time.strftime("%H%M")) && (event.end_time.strftime("%H%M") <= (time.to_time + 30.minutes).strftime("%H%M")) && event.shared_with_all}
+    shared_events = @current_events.select{|event| event.shared_with_all}
+    active_shared_event = shared_events.select{|event| (event.start_time.strftime("%H%M") >= time.to_time.strftime("%H%M")) && (event.end_time.strftime("%H%M") <= (time.to_time + 30.minutes).strftime("%H%M"))}
     active_shared_event.first
   end
 
