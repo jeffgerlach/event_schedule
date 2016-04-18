@@ -7,12 +7,12 @@
     <tr>
       <td><b></b></td>
       <% @tracks.each do |track| %>
-        <td class="text-center"><%= track %></td>
+        <td class="tracknames"><%= track %></td>
       <% end %>
     </tr>
     <% @time_periods.each do |time_block| %>
       <tr>
-        <td><%=time_block.strftime("%H%M")%>-<%=(time_block+5.minutes).strftime("%H%M")%></td>
+        <td class="times"><%=time_block.strftime("%H%M")%>-<%=(time_block+5.minutes).strftime("%H%M")%></td>
         <% @tracks.each do |track| %>
           <%= generate_schedule_td(time_block, track).html_safe %>
         <% end %>
