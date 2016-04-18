@@ -1,5 +1,8 @@
-<h2 class="text-center"> Schedule Index Page </h2>
-<br/>
-<% @schedules.each do |schedule| %>
+<div class="col-xs-10 col-xs-offset-1 text-center">
+  <h2> Event Home Page </h2>
+  <small>Click a date to see the event schedule</small>
+  <br/>
+  <% @schedules.each do |schedule| %>
     <h3 class="text-center"><%=link_to schedule.event_date.strftime("%d %b %Y"), schedule_path(schedule) %></h3>
-<% end %>
+    <% end %>
+</div>
