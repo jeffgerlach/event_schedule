@@ -27,24 +27,26 @@ class ScheduleController < ApplicationController
   helper_method :generate_schedule_td
 
   def generate_schedule_td(time, track_name)
-    time_slot = "<td"
+    time_slot = "" #"<td"
 
     common_event = find_shared_event(time)
     if common_event.nil?
       find_event = schedule_time_query(time, track_name)
       #binding.pry
       if find_event.nil?
-        time_slot += "> </td>"
+        time_slot += "<td> </td>"
       elsif find_event.start_time.round_to(30.minutes).strftime("%H%M") == time.to_time.round_to(30.minutes).strftime("%H%M") # start of slot, display name
-        time_slot += " bgcolor=\"#5AACE4\"> #{find_event.course_name} </td>"
+        time_slot += "<td rowspan=\"#{((find_event.end_time.round_to(30.minutes)-find_event.start_time.round_to(30.minutes))/30.minutes).to_s}\" bgcolor=\"#5AACE4\"> #{find_event.course_name} : #{find_event.start_time.strftime("%H%M")}-#{find_event.end_time.strftime("%H%M")} </td>"
       else
-        time_slot += ' bgcolor="#5AACE4"> </td>'
+        time_slot
+        #time_slot += ' bgcolor="#5AACE4"> </td>'
       end
     else
       if common_event.start_time.round_to(30.minutes).strftime("%H%M") == time.to_time.round_to(30.minutes).strftime("%H%M")
-        time_slot += " bgcolor=\"#C7C3C3\"> #{common_event.course_name} </td>"
+        time_slot += "<td rowspan=\"#{((common_event.end_time.round_to(30.minutes)-common_event.start_time.round_to(30.minutes))/30.minutes).to_s}\" bgcolor=\"#C7C3C3\"> #{common_event.course_name} : #{common_event.start_time.strftime("%H%M")}-#{common_event.end_time.strftime("%H%M")} </td>"
       else
-        time_slot += ' bgcolor="#C7C3C3"> </td>'
+        time_slot
+        #time_slot += ' bgcolor="#C7C3C3"> </td>'
       end
     end
   end
