@@ -17,9 +17,15 @@ class ScheduleController < ApplicationController
       @tracks.push(event.track_name) unless @tracks.include?(event.track_name)
     end
     @schedule = Schedule.find(params[:id])
-    @current_events = Event.where("start_time >= ? AND start_time <= ?", @schedule.event_date.to_datetime, @schedule.event_date.to_datetime + 1.days)
-
-
+    @current_events = Event.where("start_time >= ? AND start_time <= ?", @schedule.event_date.to_datetime, @schedule.event_date.to_datetime + 1.days).order("start_time ASC")
+    @earliest_event_time = @current_events.first
+    @latest_event_time = @current_events.last
+    @time_periods = []
+    curr_time = @earliest_event_time.start_time
+    begin
+      @time_periods << curr_time
+      curr_time += 5.minutes
+    end while curr_time < @latest_event_time.end_time
   end
 
   private
@@ -35,9 +41,9 @@ class ScheduleController < ApplicationController
       #binding.pry
       if common_event.empty?
         time_slot += "<td> </td>"
-      elsif common_event.first.start_time.round_to(30.minutes).strftime("%H%M") == time.to_time.round_to(30.minutes).strftime("%H%M") # start of slot, display nameC
+      elsif common_event.first.start_time.round_to(5.minutes).strftime("%H%M") == time.round_to(5.minutes).strftime("%H%M") # start of slot, display nameC
         curr_event = common_event.shift
-        time_slot += "<td rowspan=\"#{((curr_event.end_time.round_to(30.minutes)-curr_event.start_time.round_to(30.minutes))/30.minutes).to_s}\" bgcolor=\"#C7C3C3\"> #{curr_event.course_name} : #{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} </td>"
+        time_slot += "<td rowspan=\"#{((curr_event.end_time.round_to(5.minutes)-curr_event.start_time.round_to(5.minutes))/5.minutes).to_s}\" bgcolor=\"#C7C3C3\"> #{curr_event.course_name} : #{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} </td>"
         while !common_event.empty?
           time_slot += " | #{curr_event.course_name} : #{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
           curr_event = common_event.shift
@@ -48,9 +54,9 @@ class ScheduleController < ApplicationController
         #time_slot += ' bgcolor="#5AACE4"> </td>'
       end
     else
-      if find_event.first.start_time.round_to(30.minutes).strftime("%H%M") == time.to_time.round_to(30.minutes).strftime("%H%M")
+      if find_event.first.start_time.round_to(5.minutes).strftime("%H%M") == time.round_to(5.minutes).strftime("%H%M")
         curr_event = find_event.shift
-        time_slot += "<td rowspan=\"#{((curr_event.end_time.round_to(30.minutes)-curr_event.start_time.round_to(30.minutes))/30.minutes).to_s}\" bgcolor=\"#5AACE4\"> #{curr_event.course_name} : #{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
+        time_slot += "<td rowspan=\"#{((curr_event.end_time.round_to(5.minutes)-curr_event.start_time.round_to(5.minutes))/5.minutes).to_s}\" bgcolor=\"#5AACE4\"> #{curr_event.course_name} : #{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
         while !find_event.empty?
           time_slot += " | #{curr_event.course_name} : #{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
           curr_event = find_event.shift
@@ -65,15 +71,17 @@ class ScheduleController < ApplicationController
 
   def find_shared_event(time)
     shared_events = @current_events.select{|event| event.shared_with_all}
-    time_plus_date = @schedule.event_date.to_s + " " + time
-    time_plus_date = time_plus_date.to_datetime
+    #time_plus_date = @schedule.event_date.to_s + " " + time
+    #time_plus_date = time_plus_date.to_datetime
+    time_plus_date = time
     active_shared_event = shared_events.select{|event| time_plus_date.between?(event.start_time, event.end_time) && (event.end_time != time_plus_date)}
     active_shared_event
   end
 
   def schedule_time_query(time, track_name)
-    time_plus_date = @schedule.event_date.to_s + " " + time
-    time_plus_date = time_plus_date.to_datetime
+    #time_plus_date = @schedule.event_date.to_s + " " + time
+    #time_plus_date = time_plus_date.to_datetime
+    time_plus_date = time
     active_event = @current_events.select{|event| time_plus_date.between?(event.start_time, event.end_time) && (event.end_time != time_plus_date) && (event.track_name == track_name)}
     #binding.pry
     #if active_event.nil?
