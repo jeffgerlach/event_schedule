@@ -35,13 +35,17 @@ class ScheduleController < ApplicationController
       #binding.pry
       if find_event.nil?
         time_slot += "> </td>"
-      else #find_event.start_time.hour == time.to_time.hour # start of slot, display name
+      elsif find_event.start_time.round_to(30.minutes).strftime("%H%M") == time.to_time.round_to(30.minutes).strftime("%H%M") # start of slot, display name
         time_slot += " bgcolor=\"#5AACE4\"> #{find_event.course_name} </td>"
-      #else
-        #time_slot += ' bgcolor="#5AACE4"> </td>'
+      else
+        time_slot += ' bgcolor="#5AACE4"> </td>'
       end
     else
-      time_slot += " bgcolor=\"#C7C3C3\"> #{common_event.course_name} </td>"
+      if common_event.start_time.round_to(30.minutes).strftime("%H%M") == time.to_time.round_to(30.minutes).strftime("%H%M")
+        time_slot += " bgcolor=\"#C7C3C3\"> #{common_event.course_name} </td>"
+      else
+        time_slot += ' bgcolor="#C7C3C3"> </td>'
+      end
     end
   end
 
@@ -49,14 +53,14 @@ class ScheduleController < ApplicationController
     shared_events = @current_events.select{|event| event.shared_with_all}
     time_plus_date = @schedule.event_date.to_s + " " + time
     time_plus_date = time_plus_date.to_datetime
-    active_shared_event = shared_events.select{|event| time_plus_date.between?(event.start_time, event.end_time)}
+    active_shared_event = shared_events.select{|event| time_plus_date.between?(event.start_time, event.end_time) && (event.end_time != time_plus_date)}
     active_shared_event.first
   end
 
   def schedule_time_query(time, track_name)
     time_plus_date = @schedule.event_date.to_s + " " + time
     time_plus_date = time_plus_date.to_datetime
-    active_event = @current_events.select{|event| time_plus_date.between?(event.start_time, event.end_time) && (event.track_name == track_name)}
+    active_event = @current_events.select{|event| time_plus_date.between?(event.start_time, event.end_time) && (event.end_time != time_plus_date) && (event.track_name == track_name)}
     #binding.pry
     #if active_event.nil?
     #  return nil
@@ -65,5 +69,7 @@ class ScheduleController < ApplicationController
     #end
     active_event.first #should only have one
   end
+
+
 
 end
