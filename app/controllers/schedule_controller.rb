@@ -29,21 +29,33 @@ class ScheduleController < ApplicationController
   def generate_schedule_td(time, track_name)
     time_slot = "" #"<td"
 
-    common_event = find_shared_event(time)
-    if common_event.nil?
-      find_event = schedule_time_query(time, track_name)
+    find_event = schedule_time_query(time, track_name)
+    if find_event.empty?
+      common_event = find_shared_event(time)
       #binding.pry
-      if find_event.nil?
+      if common_event.empty?
         time_slot += "<td> </td>"
-      elsif find_event.start_time.round_to(30.minutes).strftime("%H%M") == time.to_time.round_to(30.minutes).strftime("%H%M") # start of slot, display name
-        time_slot += "<td rowspan=\"#{((find_event.end_time.round_to(30.minutes)-find_event.start_time.round_to(30.minutes))/30.minutes).to_s}\" bgcolor=\"#5AACE4\"> #{find_event.course_name} : #{find_event.start_time.strftime("%H%M")}-#{find_event.end_time.strftime("%H%M")} </td>"
+      elsif common_event.first.start_time.round_to(30.minutes).strftime("%H%M") == time.to_time.round_to(30.minutes).strftime("%H%M") # start of slot, display nameC
+        curr_event = common_event.shift
+        time_slot += "<td rowspan=\"#{((curr_event.end_time.round_to(30.minutes)-curr_event.start_time.round_to(30.minutes))/30.minutes).to_s}\" bgcolor=\"#C7C3C3\"> #{curr_event.course_name} : #{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} </td>"
+        while !common_event.empty?
+          time_slot += " | #{curr_event.course_name} : #{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
+          curr_event = common_event.shift
+        end
+        time_slot += "</td>"
       else
         time_slot
         #time_slot += ' bgcolor="#5AACE4"> </td>'
       end
     else
-      if common_event.start_time.round_to(30.minutes).strftime("%H%M") == time.to_time.round_to(30.minutes).strftime("%H%M")
-        time_slot += "<td rowspan=\"#{((common_event.end_time.round_to(30.minutes)-common_event.start_time.round_to(30.minutes))/30.minutes).to_s}\" bgcolor=\"#C7C3C3\"> #{common_event.course_name} : #{common_event.start_time.strftime("%H%M")}-#{common_event.end_time.strftime("%H%M")} </td>"
+      if find_event.first.start_time.round_to(30.minutes).strftime("%H%M") == time.to_time.round_to(30.minutes).strftime("%H%M")
+        curr_event = find_event.shift
+        time_slot += "<td rowspan=\"#{((curr_event.end_time.round_to(30.minutes)-curr_event.start_time.round_to(30.minutes))/30.minutes).to_s}\" bgcolor=\"#5AACE4\"> #{curr_event.course_name} : #{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
+        while !find_event.empty?
+          time_slot += " | #{curr_event.course_name} : #{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
+          curr_event = find_event.shift
+        end
+        time_slot += "</td>"
       else
         time_slot
         #time_slot += ' bgcolor="#C7C3C3"> </td>'
@@ -56,7 +68,7 @@ class ScheduleController < ApplicationController
     time_plus_date = @schedule.event_date.to_s + " " + time
     time_plus_date = time_plus_date.to_datetime
     active_shared_event = shared_events.select{|event| time_plus_date.between?(event.start_time, event.end_time) && (event.end_time != time_plus_date)}
-    active_shared_event.first
+    active_shared_event
   end
 
   def schedule_time_query(time, track_name)
@@ -69,7 +81,7 @@ class ScheduleController < ApplicationController
     #else
     #  active_event.start_time.hour == time.to_time.hour
     #end
-    active_event.first #should only have one
+    active_event #should only have one
   end
 
 
