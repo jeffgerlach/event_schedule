@@ -49,11 +49,11 @@ class ScheduleController < ApplicationController
       end
     else
       if find_event.first.start_time.round_to(@block_time.minutes).strftime("%H%M") == time.round_to(@block_time.minutes).strftime("%H%M")
+        time_slot += "<td rowspan=\"#{((find_event.last.end_time.round_to(@block_time.minutes)-find_event.last.start_time.round_to(@block_time.minutes))/@block_time.minutes).to_s}\" bgcolor=\"#5AACE4\"> <b>#{find_event.first.course_name}</b><br/>#{find_event.first.start_time.strftime("%H%M")}-#{find_event.first.end_time.strftime("%H%M")} "
         curr_event = find_event.shift
-        time_slot += "<td rowspan=\"#{((curr_event.end_time.round_to(@block_time.minutes)-curr_event.start_time.round_to(@block_time.minutes))/@block_time.minutes).to_s}\" bgcolor=\"#5AACE4\"> <b>#{curr_event.course_name}</b><br/>#{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
         while !find_event.empty?
-          time_slot += "<br/>------------------<br/><b>#{curr_event.course_name}</b><br/>#{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
           curr_event = find_event.shift
+          time_slot += "<br/>------------------<br/><b>#{curr_event.course_name}</b><br/>#{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
         end
         time_slot += "</td>"
       else
@@ -72,7 +72,7 @@ class ScheduleController < ApplicationController
   def schedule_time_query(time, track_name)
     time_plus_date = time
     active_event = @current_events.select{|event| time_plus_date.between?(event.start_time, event.end_time) && (event.end_time != time_plus_date) && (event.track_name == track_name)}
-    active_event #should only have one
+    active_event.sort!{|x,y| x.end_time <=> y.end_time} #in case multiple courses in same track starting at same time
   end
 
 
