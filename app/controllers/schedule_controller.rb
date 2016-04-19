@@ -13,11 +13,13 @@ class ScheduleController < ApplicationController
     @current_events = Event.where("start_time >= ? AND start_time <= ?", @schedule.event_date.to_datetime, @schedule.event_date.to_datetime + 1.days).order("start_time ASC")
     @earliest_event_time = @current_events.first
     @latest_event_time = @current_events.last
+    @event_durations = @current_events.map {|event| (event.end_time.to_i - event.start_time.to_i)/60}
+    @block_time = @event_durations.reduce(:gcd)
     @time_periods = []
     curr_time = @earliest_event_time.start_time
     begin
       @time_periods << curr_time
-      curr_time += 5.minutes
+      curr_time += @block_time.minutes
     end while curr_time < @latest_event_time.end_time
     @common_event_start_times = []
   end
@@ -33,9 +35,9 @@ class ScheduleController < ApplicationController
       common_event = find_shared_event(time)
       if common_event.empty?
         time_slot += "<td> </td>"
-      elsif common_event.first.start_time.round_to(5.minutes).strftime("%H%M") == time.round_to(5.minutes).strftime("%H%M") &&  !@common_event_start_times.include?(common_event.first.start_time) # start of slot, display nameC
+      elsif common_event.first.start_time.round_to(@block_time.minutes).strftime("%H%M") == time.round_to(@block_time.minutes).strftime("%H%M") &&  !@common_event_start_times.include?(common_event.first.start_time) # start of slot, display nameC
         curr_event = common_event.shift
-        time_slot += "<td colspan=\"5\" rowspan=\"#{((curr_event.end_time.round_to(5.minutes)-curr_event.start_time.round_to(5.minutes))/5.minutes).to_s}\" bgcolor=\"#C7C3C3\"> <b>#{curr_event.course_name}</b><br/>#{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} </td>"
+        time_slot += "<td colspan=\"5\" rowspan=\"#{((curr_event.end_time.round_to(@block_time.minutes)-curr_event.start_time.round_to(@block_time.minutes))/@block_time.minutes).to_s}\" bgcolor=\"#C7C3C3\"> <b>#{curr_event.course_name}</b><br/>#{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} </td>"
         @common_event_start_times << curr_event.start_time
         while !common_event.empty?
           time_slot += "<br/>------------------<br/><b>#{curr_event.course_name}</b><br/>#{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
@@ -46,9 +48,9 @@ class ScheduleController < ApplicationController
         time_slot
       end
     else
-      if find_event.first.start_time.round_to(5.minutes).strftime("%H%M") == time.round_to(5.minutes).strftime("%H%M")
+      if find_event.first.start_time.round_to(@block_time.minutes).strftime("%H%M") == time.round_to(@block_time.minutes).strftime("%H%M")
         curr_event = find_event.shift
-        time_slot += "<td rowspan=\"#{((curr_event.end_time.round_to(5.minutes)-curr_event.start_time.round_to(5.minutes))/5.minutes).to_s}\" bgcolor=\"#5AACE4\"> <b>#{curr_event.course_name}</b><br/>#{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
+        time_slot += "<td rowspan=\"#{((curr_event.end_time.round_to(@block_time.minutes)-curr_event.start_time.round_to(@block_time.minutes))/@block_time.minutes).to_s}\" bgcolor=\"#5AACE4\"> <b>#{curr_event.course_name}</b><br/>#{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
         while !find_event.empty?
           time_slot += "<br/>------------------<br/><b>#{curr_event.course_name}</b><br/>#{curr_event.start_time.strftime("%H%M")}-#{curr_event.end_time.strftime("%H%M")} "
           curr_event = find_event.shift
